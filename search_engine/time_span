@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+APP_NAME=$(basename $0)
+PROGRAM=
+
+if [ "$#" -ne 1 ]; then
+    echo "${APP_NAME} <program>"
+    exit -1
+else
+    PROGRAM=$1
+fi
+
+begin_time=$(date +%s)
+eval ${PROGRAM}
+end_time=$(date +%s)
+time_span=$((end_time-begin_time))
+
+echo "Time elapsed: ${time_span}s"

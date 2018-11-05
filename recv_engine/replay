@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+for i in $(seq 1 5)
+do
+    ./dump -m PUSH -u tcp://127.0.0.1:50000 -r /root/replay.pcap
+done

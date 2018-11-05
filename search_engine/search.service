@@ -1,0 +1,11 @@
+[Unit]
+Description=UTS Bigdata Module Searching Engine
+
+[Service]
+Type=forking
+ExecStart=/usr/local/bin/search -m daemon
+ExecReload=/bin/kill -s HUP $MAINPID
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
