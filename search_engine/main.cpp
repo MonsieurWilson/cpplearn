@@ -95,7 +95,7 @@ static bool parse_args(int argc, char **argv) {
                 break;
             case 's':
                 if (0 != inet_aton(optarg, &st_addr)) {
-                    request.set_int_val_by_key("sip", st_addr.s_addr);
+                    request.set_int_val_by_key("sip", ntohl(st_addr.s_addr));
                     break;
                 } else {
                     fprintf(stderr, "ERROR: Invalid source IP address format!\n");
@@ -103,7 +103,7 @@ static bool parse_args(int argc, char **argv) {
                 }
             case 'd':
                 if (0 != inet_aton(optarg, &st_addr)) {
-                    request.set_int_val_by_key("dip", st_addr.s_addr);
+                    request.set_int_val_by_key("dip", ntohl(st_addr.s_addr));
                     break;
                 } else {
                     fprintf(stderr, "ERROR: Invalid destination IP address format!\n");

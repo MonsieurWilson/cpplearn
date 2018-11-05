@@ -1,0 +1,38 @@
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
+
+import glob
+
+
+# SConstruct environment
+env = Environment()
+
+# CCFLAGS
+common_flags  = ("-DXW -pthread -msse3 -march=core2 -std=c++11 -fno-strict-aliasing "
+                 "-Wno-write-strings -minline-all-stringops -Wall -Wno-unused-local-typedefs "
+                 "-Wno-unused-variable -rdynamic -pipe -Wshadow -Wcast-qual -fPIC -DPIC")
+release_flags = "-DNDEBUG -fomit-frame-pointer -O3 " + common_flags
+debug_flags   = "-g -DDEBUG -O0 " + common_flags
+scons_flags   = release_flags
+
+# source code and libraries
+include_path  = ["/usr/include", "/usr/local/include"]
+lib_path      = ["/usr/lib", "/usr/local/lib", "/usr/local/lib64/"]
+libs          = ["c", "pthread", "zmq", "parquet", "hdfs3", "qfs_client", 
+                 "boost_system", "arrow", "pcap", "uuid"]
+recv_sources  = ["recv.cpp", "configs.cpp", "packet_receiver.cpp",
+                 "misc.cpp", "log.cpp", "ring_output_stream.cpp",
+                 "mem_parquet_writer.cpp", "hdfs_parquet_writer.cpp",
+                 "qfs_parquet_writer.cpp"]
+dump_sources  = ["dump.cpp", "capture.cpp"]
+
+# specify common tasks
+env.Append(CPPPATH=include_path)
+env.Append(CCFLAGS=scons_flags)
+env.Append(LIBS=libs)
+env.Append(LIBPATH=lib_path)
+
+# building
+env.Program(target="recv", source=recv_sources)
+env.Program(target="dump", source=dump_sources)
+

@@ -26,3 +26,9 @@
 *.exe
 *.out
 *.app
+
+# SConstruct Database files
+*.sconsign.dblite
+
+# VIM temporary files
+*.swp
