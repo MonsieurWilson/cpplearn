@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <iostream>
+#include <iomanip>
 #include <sstream>
 #include <cassert>
 #include <ctime>
@@ -30,13 +31,12 @@ template <typename ElementType>
 std::ostream &operator<<(std::ostream &out,
                          const std::vector<ElementType> &nums) {
     for (const auto &num : nums) {
-        out << num << " ";
+        out << std::setw(2) << num << " ";
     }
     return out;
 }
 
-int main() {
-    /*
+static void test_qsort() {
     std::string line;
     std::cout << "Input numbers to be sorted:" << std::endl;
     while (std::getline(std::cin, line)) {
@@ -48,8 +48,9 @@ int main() {
         std::cout << "After quick sort:" << std::endl 
                   << nums << std::endl;
     }
-    */
+}
 
+static void test_qselect() {
     std::string line;
     std::cout << "Input numbers to be selected:" << std::endl;
     while (std::getline(std::cin, line)) {
@@ -73,4 +74,9 @@ int main() {
         assert(moms == hs);
         std::cout << "============Passed===========" << std::endl;
     }
+}
+
+int main() {
+    
+    return 0;
 }
