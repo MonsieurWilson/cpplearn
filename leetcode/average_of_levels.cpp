@@ -19,7 +19,7 @@ class TreeNode {
 
 class Solution {
     public:
-        vector<double> averageOfLevels(TreeNode* root) {
+        vector<double> averageOfLevels(TreeNode *root) {
             vector<double> res;
             queue<TreeNode *> unvisited;
             if (root == nullptr) {
