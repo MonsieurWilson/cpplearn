@@ -243,7 +243,7 @@ template <typename ElementType>
 BST<ElementType>::BST() : m_root(nullptr), m_size(0) {}
 
 template <typename ElementType>
-BST<ElementType>::BST(const BST<ElementType> &original)
+BST<ElementType>::BST(const BST &original)
     : m_root(nullptr), m_size(original.m_size) {
     if (original.size() != 0) {
         try{
@@ -258,7 +258,7 @@ BST<ElementType>::BST(const BST<ElementType> &original)
 
 template <typename ElementType>
 const BST<ElementType> &
-BST<ElementType>::operator=(const BST<ElementType> &rightHandSide) {
+BST<ElementType>::operator=(const BST &rightHandSide) {
     BST<ElementType> rhs(rightHandSide);
     swap(rhs);
     return *this;
@@ -274,7 +274,7 @@ BST<ElementType>::~BST() noexcept {
 }
 template <typename ElementType>
 bool BST<ElementType>::insert(const ElementType &elem) {
-    BST<ElementType>::NodePtr parent = m_root, pos = m_root;
+    BST::NodePtr parent = m_root, pos = m_root;
 
     while (pos != nullptr) {
         if (pos->data == elem) {
@@ -285,7 +285,7 @@ bool BST<ElementType>::insert(const ElementType &elem) {
     }
 
     try {
-        pos = new BST<ElementType>::LinkNode(elem);
+        pos = new BST::LinkNode(elem);
     } catch (std::bad_alloc &err) {
         std::cerr << "Can't allocate new LinkNode: "
                   << err.what() << std::endl;
@@ -304,10 +304,9 @@ bool BST<ElementType>::insert(const ElementType &elem) {
 
 template <typename ElementType>
 bool BST<ElementType>::remove(const ElementType &elem) {
-    BST<ElementType>::NodePtr parent = m_root, pos = m_root;
+    BST::NodePtr parent = m_root, pos = m_root, tmp = nullptr;
     while (pos != nullptr) {
         if (pos->data == elem) {
-            BST<ElementType>::NodePtr tmp;
             if (pos->left == nullptr) {
                 tmp = pos->right;
             } else if (pos->right == nullptr) {
@@ -338,7 +337,7 @@ bool BST<ElementType>::remove(const ElementType &elem) {
 
 template <typename ElementType>
 bool BST<ElementType>::find(const ElementType &elem) const {
-    BST<ElementType>::NodePtr parent = m_root, pos = m_root;
+    BST::NodePtr parent = m_root, pos = m_root;
     while (pos != nullptr) {
         if (pos->data == elem) {
             return true;
@@ -353,8 +352,8 @@ template <typename ElementType>
 void BST<ElementType>::traverse(std::ostream &out) const {
     out << "{ [lxy::BST] ";
     if (size() != 0) {
-        std::stack<BST<ElementType>::NodePtr> unvisited;
-        BST<ElementType>::NodePtr node = m_root;
+        std::stack<BST::NodePtr> unvisited;
+        BST::NodePtr node = m_root;
         while (node != nullptr || !unvisited.empty()) {
             while (node != nullptr) {
                 unvisited.push(node);
@@ -370,10 +369,10 @@ void BST<ElementType>::traverse(std::ostream &out) const {
 }
 
 template <typename ElementType>
-void BST<ElementType>::swap(BST<ElementType> &rightHandSide) noexcept {
+void BST<ElementType>::swap(BST &rightHandSide) noexcept {
     using std::swap;
 
-    BST<ElementType>::NodePtr tmp = m_root;
+    BST::NodePtr tmp = m_root;
     m_root = rightHandSide.m_root;
     rightHandSide.m_root = tmp;
 
@@ -393,7 +392,7 @@ BST<ElementType>::depth() const {
 }
 
 template <typename ElementType>
-void BST<ElementType>::clear(BST<ElementType>::NodePtr root) {
+void BST<ElementType>::clear(BST::NodePtr root) {
     if (root == nullptr) {
         return;
     }
@@ -404,12 +403,12 @@ void BST<ElementType>::clear(BST<ElementType>::NodePtr root) {
 
 template <typename ElementType>
 typename BST<ElementType>::NodePtr
-BST<ElementType>::copy(BST<ElementType>::NodePtr root) {
+BST<ElementType>::copy(BST::NodePtr root) {
     if (root == nullptr) {
         return nullptr;
     }
 
-    BST<ElementType>::NodePtr node = new BST<ElementType>::LinkNode(root->data);
+    BST::NodePtr node = new BST::LinkNode(root->data);
     node->left = copy(root->left);
     node->right = copy(root->right);
 
@@ -418,8 +417,8 @@ BST<ElementType>::copy(BST<ElementType>::NodePtr root) {
 
 template <typename ElementType>
 typename BST<ElementType>::NodePtr
-BST<ElementType>::remove_min(BST<ElementType>::NodePtr root) {
-    BST<ElementType>::NodePtr parent = root, pos = root;
+BST<ElementType>::remove_min(BST::NodePtr root) {
+    BST::NodePtr parent = root, pos = root;
     if (pos != nullptr) {
         while (pos->left != nullptr) {
             parent = pos;
@@ -433,7 +432,7 @@ BST<ElementType>::remove_min(BST<ElementType>::NodePtr root) {
 
 template <typename ElementType>
 typename BST<ElementType>::size_type 
-BST<ElementType>::depth_impl(BST<ElementType>::NodePtr root) const {
+BST<ElementType>::depth_impl(BST::NodePtr root) const {
     if (root == nullptr) {
         return 0;
     }
