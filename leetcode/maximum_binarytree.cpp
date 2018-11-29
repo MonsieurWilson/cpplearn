@@ -56,4 +56,57 @@ class Solution {
             }
             return nodes.front();
         }
+
+        /* Divide and Conquer solution of O(log(N)^2) time complexity. */
+        TreeNode *constructMaximumBinaryTreeDAC(vector<int> &nums) {
+            return constructDACImpl(nums.begin(), nums.end());
+        }
+
+        TreeNode *constructDACImpl(vector<int>::const_iterator first,
+                                   vector<int>::const_iterator last) {
+            if (first == last) {
+                return nullptr;
+            } else if (first + 1 == last) {
+                return new TreeNode(*first);
+            }
+            auto mid = first + (last - first) / 2;
+            TreeNode *ltree = constructDACImpl(first, mid),
+                     *rtree = constructDACImpl(mid, last);
+            return mergeCartesianTree(ltree, rtree);
+        }
+
+        TreeNode *mergeCartesianTree(TreeNode *ltree, TreeNode *rtree) {
+            // Merge the right spine of ltree and the left spine of rtree.
+            if (ltree == nullptr || rtree == nullptr) {
+                return nullptr;
+            }
+            TreeNode root(0);
+            TreeNode *cur = &root;
+            bool isRightSpine = true;
+            while (ltree != nullptr || rtree != nullptr) {
+                if (rtree != nullptr &&
+                    (ltree == nullptr || rtree->val > ltree->val)) {
+                    if (isRightSpine) {
+                        cur->left = rtree;
+                        cur = cur->left;
+                    } else {
+                        cur->right = rtree;
+                        cur = cur->right;
+                        isRightSpine = true;
+                    }
+                    rtree = rtree->left;
+                } else {
+                    if (isRightSpine) {
+                        cur->left = ltree;
+                        cur = cur->left;
+                        isRightSpine = false;
+                    } else {
+                        cur->right = ltree;
+                        cur = cur->right;
+                    }
+                    ltree = ltree->right;
+                }
+            }
+            return root.left;
+        }
 };
