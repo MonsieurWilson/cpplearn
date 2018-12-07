@@ -18,13 +18,14 @@ class Solution {
         void permuteImpl(vector<int> &nums, int index,
                          vector<vector<int>> &permutations) {
             int lens = nums.size();
-            permutations.push_back(nums);
+            if (index >= lens - 1) {
+                permutations.push_back(nums);
+                return;
+            }
             for (int i = index; i < lens; ++i) {
-                for (int j = i + 1; j < lens; ++j) {
-                    swap(nums[i], nums[j]);
-                    permuteImpl(nums, i+1, permutations);
-                    swap(nums[i], nums[j]);
-                }
+                swap(nums[i], nums[index]);
+                permuteImpl(nums, index+1, permutations);
+                swap(nums[i], nums[index]);
             }
         }
 };
