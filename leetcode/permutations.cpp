@@ -18,9 +18,6 @@ class Solution {
         void permuteImpl(vector<int> &nums, int index,
                          vector<vector<int>> &permutations) {
             int lens = nums.size();
-            if (lens == 0) {
-                return;
-            }
             permutations.push_back(nums);
             for (int i = index; i < lens; ++i) {
                 for (int j = i + 1; j < lens; ++j) {
