@@ -9,7 +9,7 @@
 
 class Solution {
     public:
-        /* Devide and Conquer of O(Nlog(k)) average-case time complexity. */
+        /* Divide and Conquer of O(Nlog(k)) average-case time complexity. */
         ListNode *mergeKLists(vector<ListNode *> &lists) {
             int interval = 1;
             while (interval < lists.size()) {
