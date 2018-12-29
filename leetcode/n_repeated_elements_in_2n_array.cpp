@@ -24,7 +24,8 @@ class Solution {
     public:
         int repeatedNTimes(vector<int> &A) {
             int ret = A[0];
-            for (int i = 0; i < A.size(); ++i) {
+            // Note the case [2,1,3,2]
+            for (int i = 0; i < A.size()-2; ++i) {
                 if (A[i] == A[i+1] || A[i] == A[i+2]) {
                     ret = A[i];
                     break;
